@@ -1,7 +1,9 @@
 services:
 
   nginx:
-    build: ./nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     ports:
       - "80:80"
     depends_on:
@@ -10,6 +12,8 @@ services:
 
   backend:
     build: ./backend
+    volumes:
+      - ./frontend:/app/frontend:ro
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - POSTGRES_HOST=db
