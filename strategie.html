@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Haufe Group · Strategie-Methodik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* ─── Two Card Methods (Ansoff + Blue Ocean) ─── */
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
+@media (max-width:1080px){.methods{grid-template-columns:1fr}}
+.method{
+  background:linear-gradient(180deg, rgba(0,30,70,.3), rgba(0,15,40,.1));
+  border:1px solid rgba(184,192,208,.12);border-radius:18px;
+  padding:32px;
+}
+.method .m-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);margin-bottom:10px}
+.method .m-title{font-family:var(--head);font-weight:700;font-size:28px;letter-spacing:-.015em;margin-bottom:8px;line-height:1.15}
+.method .m-sub{font-size:13px;color:var(--gray);margin-bottom:22px;line-height:1.55}
+
+/* ─── Ansoff Matrix ─── */
+.ansoff-wrap{position:relative;padding-left:60px;padding-bottom:50px;margin-top:8px}
+.ansoff-grid{
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  gap:8px;aspect-ratio:1;
+}
+.aq{
+  background:rgba(0,5,18,.35);border:1px solid rgba(184,192,208,.12);border-radius:12px;
+  padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+  cursor:default;transition:all .25s ease;position:relative;overflow:hidden;
+}
+.aq:hover{transform:translateY(-2px);border-color:var(--lime);background:rgba(200,230,0,.04);box-shadow:0 8px 24px rgba(200,230,0,.1)}
+.aq-name{font-family:var(--head);font-weight:600;font-size:14px;line-height:1.2;letter-spacing:-.005em}
+.aq-risk{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-2);margin-top:4px}
+.aq-risk b{color:var(--white);font-weight:600}
+.aq-eg{font-size:11.5px;line-height:1.5;color:var(--gray)}
+.aq-eg b{color:var(--lime);font-weight:600}
+.aq-tag{position:absolute;top:14px;right:14px;width:8px;height:8px;border-radius:50%}
+.aq:nth-child(1) .aq-tag{background:#7BD389}
+.aq:nth-child(2) .aq-tag{background:#FFB800}
+.aq:nth-child(3) .aq-tag{background:#FFB800}
+.aq:nth-child(4) .aq-tag{background:#FF6B6B}
+
+.axis-x{position:absolute;bottom:18px;left:60px;right:0;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--gray-2);letter-spacing:.14em;text-transform:uppercase}
+.axis-x::after{content:'Märkte →';color:var(--lime);font-weight:600}
+.axis-y{position:absolute;top:0;bottom:50px;left:18px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--mono);font-size:10px;color:var(--gray-2);letter-spacing:.14em;text-transform:uppercase}
+.axis-y::after{content:'Produkte →';color:var(--lime);font-weight:600}
+
+/* ─── Blue Ocean Strategy Canvas ─── */
+.bo-canvas{
+  margin-top:8px;background:rgba(0,5,18,.4);
+  border:1px solid rgba(184,192,208,.12);border-radius:12px;padding:18px;
+  position:relative;height:280px;
+}
+.bo-svg{width:100%;height:100%}
+.bo-legend{display:flex;gap:18px;margin-top:14px;font-family:var(--mono);font-size:11px;flex-wrap:wrap}
+.bo-l-row{display:flex;align-items:center;gap:8px;color:var(--gray)}
+.bo-l-row .swatch{width:18px;height:3px;border-radius:2px}
+
+.elra{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.elra-cell{
+  background:rgba(0,5,18,.35);border:1px solid rgba(184,192,208,.12);border-radius:10px;padding:14px;
+  transition:all .2s ease;cursor:default;
+}
+.elra-cell:hover{border-color:var(--lime);transform:translateY(-2px)}
+.elra-cell .h{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.elra-cell .b{font-size:11px;line-height:1.45;color:var(--gray)}
+.elra-cell:nth-child(1) .h{color:#FF6B6B}
+.elra-cell:nth-child(2) .h{color:#FFB800}
+.elra-cell:nth-child(3) .h{color:var(--mint)}
+.elra-cell:nth-child(4) .h{color:var(--lime)}
+@media (max-width:600px){.elra{grid-template-columns:1fr 1fr}}
+
+/* ── Flow diagram (the centerpiece) ── */
+.flow-wrap{
+  background:linear-gradient(180deg, rgba(0,30,70,.3), rgba(0,15,40,.15));
+  border:1px solid rgba(184,192,208,.1);border-radius:18px;padding:36px 28px;
+  position:relative;overflow:hidden;
+}
+.flow-grid{
+  position:relative;
+  display:grid;grid-template-rows:auto auto auto auto auto auto;
+  gap:48px;align-items:center;justify-items:center;
+}
+.flow-svg{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;
+}
+.flow-node{
+  position:relative;z-index:1;background:rgba(0,5,18,.92);
+  border:1.5px solid rgba(184,192,208,.18);border-radius:12px;
+  padding:14px 22px;font-family:var(--head);font-weight:600;font-size:14px;
+  text-align:center;cursor:pointer;transition:all .2s ease;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.flow-node.lg{padding:18px 30px;font-size:16px}
+.flow-node:hover{transform:translateY(-3px);border-color:var(--lime);box-shadow:0 12px 28px -10px rgba(200,230,0,.4)}
+.flow-node .glyph{font-size:18px;line-height:1}
+.flow-node.theme-ki{border-color:rgba(155,140,255,.4);color:var(--ki)}
+.flow-node.theme-ki:hover{border-color:var(--ki);box-shadow:0 12px 28px -10px rgba(155,140,255,.5)}
+.flow-node.theme-pl{border-color:rgba(0,196,154,.4);color:var(--mint)}
+.flow-node.theme-pl:hover{border-color:var(--mint);box-shadow:0 12px 28px -10px rgba(0,196,154,.5)}
+.flow-node.theme-ak{border-color:rgba(255,138,92,.4);color:var(--ak)}
+.flow-node.theme-ak:hover{border-color:var(--ak);box-shadow:0 12px 28px -10px rgba(255,138,92,.5)}
+.flow-node.theme-ve{border-color:rgba(79,179,255,.4);color:var(--ve)}
+.flow-node.theme-ve:hover{border-color:var(--ve);box-shadow:0 12px 28px -10px rgba(79,179,255,.5)}
+.flow-themes{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.flow-pulse{position:absolute;border-radius:12px;border:1.5px solid var(--lime);opacity:0;pointer-events:none;animation:flow-pulse 2s ease-out infinite}
+@keyframes flow-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.3);opacity:0}}
+
+/* ── Theme detail overlay (center modal) ── */
+.flow-overlay{
+  position:fixed;inset:0;z-index:240;display:none;align-items:flex-start;justify-content:center;
+  background:rgba(2,6,16,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:48px 24px;overflow-y:auto;
+}
+.flow-overlay.show{display:flex;animation:flowFadeIn .2s ease-out}
+@keyframes flowFadeIn{from{opacity:0}to{opacity:1}}
+.flow-modal{
+  position:relative;width:100%;max-width:960px;margin:auto;
+  background:linear-gradient(180deg, #04132E 0%, #020A1F 100%);
+  border:1px solid rgba(184,192,208,.14);border-radius:18px;
+  box-shadow:0 32px 80px rgba(0,0,0,.6), 0 0 0 1px var(--area-color, var(--lime)) inset;
+  animation:flowSlideUp .3s cubic-bezier(.22,1,.36,1);
+  overflow:hidden;
+}
+@keyframes flowSlideUp{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.fm-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(184,192,208,.2);background:rgba(0,5,18,.6);color:var(--white);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;line-height:1;z-index:2;transition:all .15s}
+.fm-close:hover{background:var(--lime);color:var(--deep);border-color:var(--lime)}
+.fm-head{padding:28px 32px 22px;border-bottom:1px solid rgba(184,192,208,.1);display:flex;align-items:flex-start;gap:20px}
+.fm-glyph{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;font-family:var(--head);font-weight:700;flex-shrink:0}
+.fm-meta{flex:1;min-width:0;padding-right:40px}
+.fm-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.fm-title{font-family:var(--head);font-weight:700;font-size:26px;letter-spacing:-.015em;margin-bottom:8px;line-height:1.15}
+.fm-blurb{font-size:13px;color:var(--gray);line-height:1.55}
+
+.fm-tabs{display:flex;gap:2px;padding:0 32px;border-bottom:1px solid rgba(184,192,208,.1);background:rgba(0,5,18,.4);overflow-x:auto;scrollbar-width:none}
+.fm-tabs::-webkit-scrollbar{display:none}
+.fm-tab{padding:14px 16px;font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--gray-2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all .15s;margin-bottom:-1px;display:flex;align-items:center;gap:8px}
+.fm-tab:hover{color:var(--white)}
+.fm-tab.on{color:var(--white);border-bottom-color:var(--area-color, var(--lime))}
+.fm-tab .fm-tab-num{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:rgba(184,192,208,.1);color:var(--gray-2)}
+.fm-tab.on .fm-tab-num{background:var(--area-color, var(--lime));color:var(--deep)}
+
+.fm-body{padding:24px 32px 32px;max-height:62vh;overflow-y:auto}
+.fm-mz-name{font-family:var(--head);font-weight:600;font-size:15px;color:var(--gray);margin-bottom:18px;line-height:1.4}
+.fm-mz-name b{color:var(--white);font-weight:700}
+
+.fm-year{margin-bottom:22px;background:rgba(184,192,208,.03);border:1px solid rgba(184,192,208,.08);border-radius:12px;overflow:hidden}
+.fm-year-hdr{display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(0,5,18,.4);border-bottom:1px solid rgba(184,192,208,.08)}
+.fm-year-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;padding:4px 9px;border-radius:5px;background:var(--area-color, var(--lime));color:var(--deep)}
+.fm-year-name{font-family:var(--head);font-weight:600;font-size:14px;flex:1;line-height:1.3}
+.fm-year-body{padding:14px 18px}
+
+.fm-kpis{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fm-kpi{font-size:12px;color:var(--gray);padding:4px 0 4px 12px;border-left:2px solid var(--area-color, var(--lime));line-height:1.45;opacity:.85}
+
+.fm-proj-list{display:grid;grid-template-columns:1fr;gap:8px}
+.fm-proj{
+  position:relative;display:flex;align-items:flex-start;gap:12px;
+  padding:12px 14px 12px 18px;
+  background:rgba(0,5,18,.5);border:1px solid rgba(184,192,208,.1);border-radius:10px;
+  cursor:pointer;transition:all .15s;
+}
+.fm-proj::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:var(--area-color, var(--lime));opacity:.7}
+.fm-proj:hover{border-color:var(--area-color, var(--lime));background:rgba(0,30,70,.45);transform:translateX(2px)}
+.fm-proj.cross{border-color:rgba(184,192,208,.18)}
+.fm-proj.cross::after{
+  content:'⇔';position:absolute;top:8px;right:10px;
+  font-size:11px;color:var(--gray-2);opacity:.6;
+}
+.fm-pid{font-family:var(--mono);font-size:10.5px;font-weight:600;flex-shrink:0;padding-top:1px;letter-spacing:.04em}
+.fm-pinfo{flex:1;min-width:0}
+.fm-pname{font-size:13px;font-weight:600;line-height:1.35;margin-bottom:4px;color:var(--white);text-wrap:pretty;padding-right:18px}
+.fm-pdesc{font-size:11.5px;color:var(--gray);line-height:1.5;margin-bottom:6px;display:none}
+.fm-pmeta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.fm-pchip{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;padding:2px 7px;border-radius:4px;background:rgba(184,192,208,.08);color:var(--gray-2)}
+.fm-pchip.st-aktiv{background:rgba(200,230,0,.12);color:var(--lime)}
+.fm-pchip.st-gesetz{background:rgba(255,184,0,.12);color:var(--gesetz)}
+.fm-pchip.cross-dep{padding:2px 7px 2px 4px;display:inline-flex;align-items:center;gap:4px}
+.fm-pchip.cross-dep .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.fm-pchip.cross-dep b{color:inherit;font-weight:600}
+
+.fm-legend{display:flex;flex-wrap:wrap;gap:14px;padding:14px 32px;border-top:1px solid rgba(184,192,208,.1);background:rgba(0,5,18,.4);font-family:var(--mono);font-size:10px;color:var(--gray-2);letter-spacing:.04em}
+.fm-legend-row{display:flex;align-items:center;gap:6px}
+.fm-legend-row .ld{width:8px;height:8px;border-radius:50%}
+</style>
+</head>
+<body data-page="strategie" data-screen-label="02 Strategie">
+<div class="page">
+
+  <section class="section" data-screen-label="Intro">
+    <div class="eyebrow reveal">02 — Strategie-Methodik</div>
+    <h1 class="h1 reveal" style="max-width:880px;margin-bottom:24px">
+      Vom <span style="color:var(--lime)">methodischen Rahmen</span><br>
+      zum operativen Projekt.
+    </h1>
+    <p class="lead reveal">
+      Wir leiten das Portfolio entlang zweier etablierter Strategie-Methoden ab —
+      und übersetzen diese in ein klickbares Ableitungs-Flussdiagramm:
+      Vision &rarr; Methoden &rarr; Kernthemen &rarr; Mehrjahresziele &rarr; Jahresziele &rarr; Projekte.
+    </p>
+  </section>
+
+  <!-- ─── 2.1 METHODEN (Ansoff + Blue Ocean) ────────── -->
+  <section class="section" data-screen-label="Methoden">
+    <div class="eyebrow reveal">2.1 — Methodischer Rahmen</div>
+    <h2 class="h2 reveal" style="margin-bottom:14px;max-width:900px">Zwei Linsen.<br>Eine <span style="color:var(--lime)">strategische Logik</span>.</h2>
+    <p class="lead reveal" style="margin-bottom:8px;max-width:880px">
+      <b style="color:var(--white)">Ansoff-Matrix</b> verortet Wachstumsfelder, <b style="color:var(--white)">Blue Ocean</b> öffnet eine neue Werteflanke — gemeinsam liefern sie die Basis für die vier Kernthemen.
+    </p>
+
+    <div class="methods">
+      <!-- ANSOFF -->
+      <div class="method reveal">
+        <div class="m-label">Ansoff-Matrix</div>
+        <div class="m-title">Wachstumsfelder verorten</div>
+        <div class="m-sub">Welche Märkte? Welche Produkte? Vier Quadranten — vier Wetten der Haufe Group für 2026/2027.</div>
+        <div class="ansoff-wrap">
+          <div class="axis-y"><span>bestehend</span></div>
+          <div class="ansoff-grid">
+            <div class="aq" data-q="md">
+              <div class="aq-tag"></div>
+              <div>
+                <div class="aq-name">Marktdurchdringung</div>
+                <div class="aq-risk">Risiko · <b>niedrig</b></div>
+              </div>
+              <div class="aq-eg">Cross-Selling <b>Haufe ↔ Lexware</b>, Cross-Marken-Empfehlungen, Single-Sign-On.</div>
+            </div>
+            <div class="aq" data-q="me">
+              <div class="aq-tag"></div>
+              <div>
+                <div class="aq-name">Marktentwicklung</div>
+                <div class="aq-risk">Risiko · <b>mittel</b></div>
+              </div>
+              <div class="aq-eg"><b>Haufe Akademie International</b>, Kurs-Lokalisierung Englisch, Enterprise-B2B-Portal.</div>
+            </div>
+            <div class="aq" data-q="pd">
+              <div class="aq-tag"></div>
+              <div>
+                <div class="aq-name">Produktentwicklung</div>
+                <div class="aq-risk">Risiko · <b>mittel</b></div>
+              </div>
+              <div class="aq-eg"><b>KI-Copiloten</b> in der Office-Line, Knowledge-Graph, Compliance-Tooling.</div>
+            </div>
+            <div class="aq" data-q="dv">
+              <div class="aq-tag"></div>
+              <div>
+                <div class="aq-name">Diversifikation</div>
+                <div class="aq-risk">Risiko · <b>hoch</b></div>
+              </div>
+              <div class="aq-eg"><b>Venture Studios</b> — neue Branchen, neue Produkte (Legal-Tech, Sustainability-Tech).</div>
+            </div>
+          </div>
+          <div class="axis-x"><span>bestehend</span></div>
+        </div>
+      </div>
+
+      <!-- BLUE OCEAN -->
+      <div class="method reveal">
+        <div class="m-label">Blue Ocean Strategy</div>
+        <div class="m-title">Den Wettbewerbsraum neu zeichnen</div>
+        <div class="m-sub">Nicht im roten Ozean optimieren, sondern eine neue Werteflanke öffnen — <b style="color:var(--white)">Compliance-grade-AI für regulierte Märkte</b>.</div>
+
+        <div class="bo-canvas">
+          <svg class="bo-svg" viewBox="0 0 600 280" preserveAspectRatio="none">
+            <g stroke="rgba(184,192,208,.1)" stroke-width="1">
+              <line x1="50" y1="40"  x2="580" y2="40"/>
+              <line x1="50" y1="100" x2="580" y2="100"/>
+              <line x1="50" y1="160" x2="580" y2="160"/>
+              <line x1="50" y1="220" x2="580" y2="220"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#7A8499" letter-spacing="0.05em">
+              <text x="100" y="252" text-anchor="middle">Preis</text>
+              <text x="180" y="252" text-anchor="middle">Service</text>
+              <text x="260" y="252" text-anchor="middle">Marken-Tiefe</text>
+              <text x="340" y="252" text-anchor="middle">Content-Tiefe</text>
+              <text x="420" y="252" text-anchor="middle">KI-Integration</text>
+              <text x="510" y="252" text-anchor="middle">Plattform</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#7A8499">
+              <text x="40" y="40"  text-anchor="end">hoch</text>
+              <text x="40" y="220" text-anchor="end">niedrig</text>
+            </g>
+            <polyline class="bo-red"
+              fill="none" stroke="#7A8499" stroke-width="2"
+              stroke-dasharray="5,5" stroke-linejoin="round" stroke-linecap="round"
+              points="100,140 180,100 260,80 340,70 420,170 510,180"/>
+            <polyline class="bo-blue"
+              fill="none" stroke="#C8E600" stroke-width="3"
+              stroke-linejoin="round" stroke-linecap="round"
+              points="100,160 180,120 260,140 340,55 420,45 510,50"/>
+            <g fill="#C8E600">
+              <circle class="bo-dot" cx="100" cy="160" r="4"/>
+              <circle class="bo-dot" cx="180" cy="120" r="4"/>
+              <circle class="bo-dot" cx="260" cy="140" r="4"/>
+              <circle class="bo-dot" cx="340" cy="55" r="4"/>
+              <circle class="bo-dot" cx="420" cy="45" r="4"/>
+              <circle class="bo-dot" cx="510" cy="50" r="4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="bo-legend">
+          <div class="bo-l-row"><span class="swatch" style="background:#7A8499"></span> Red Ocean (Wettbewerb)</div>
+          <div class="bo-l-row"><span class="swatch" style="background:var(--lime)"></span> Haufe-Wertekurve 2027</div>
+        </div>
+
+        <div class="elra">
+          <div class="elra-cell">
+            <div class="h">Eliminate</div>
+            <div class="b">Reine Print-Produkte ohne digitale Komponente.</div>
+          </div>
+          <div class="elra-cell">
+            <div class="h">Reduce</div>
+            <div class="b">Preiskampf in der KMU-Software-Commodity.</div>
+          </div>
+          <div class="elra-cell">
+            <div class="h">Raise</div>
+            <div class="b">Content-Tiefe als Differenzierung pro Branche.</div>
+          </div>
+          <div class="elra-cell">
+            <div class="h">Create</div>
+            <div class="b">Compliance-grade-AI &amp; Ökosystem-Marktplatz.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 2.2 FLOW DIAGRAM (HERZSTÜCK) ─────────────── -->
+  <section class="section" data-screen-label="Flow">
+    <div class="eyebrow reveal">2.2 — Interaktives Ableitungs-Flussdiagramm</div>
+    <h2 class="h2 reveal" style="margin-bottom:14px">
+      <span style="color:var(--lime)">Klick</span> auf ein Kernthema öffnet alle MZ &rarr; Jahresziele &rarr; Projekte.
+    </h2>
+    <p class="lead reveal" style="margin-bottom:32px">
+      Der gesamte Pfad von der Vision bis zum einzelnen Projekt — in einer einzigen Hierarchie.
+    </p>
+
+    <div class="flow-wrap reveal">
+      <svg class="flow-svg" id="flow-svg" preserveAspectRatio="none"></svg>
+      <div class="flow-grid" id="flow-grid">
+        <div class="flow-node lg" data-node="vision"><span class="glyph" style="color:var(--lime)">◐</span> Vision &middot; Mission</div>
+        <div class="flow-node" data-node="methods"><span class="glyph" style="color:var(--mint)">◇</span> Ansoff + Blue Ocean</div>
+        <div class="flow-themes">
+          <div class="flow-node theme-ki" data-node="theme" data-theme="ki"><span class="glyph">⌬</span> KI-Integration</div>
+          <div class="flow-node theme-pl" data-node="theme" data-theme="pl"><span class="glyph">◉</span> Plattform &amp; Ökosystem</div>
+          <div class="flow-node theme-ak" data-node="theme" data-theme="ak"><span class="glyph">△</span> Haufe Akademie</div>
+          <div class="flow-node theme-ve" data-node="theme" data-theme="ve"><span class="glyph">✦</span> Venture &amp; NBO</div>
+        </div>
+        <div class="flow-node" data-node="mehrjahr">Mehrjahresziele 2026–2027</div>
+        <div class="flow-node" data-node="jahr">Jahresziele 2026 / 2027 &middot; KPIs</div>
+        <div class="flow-node lg" data-node="projekte"><span class="glyph" style="color:var(--lime)">▣</span> Projekte</div>
+      </div>
+    </div>
+
+    <p class="reveal" style="margin-top:18px;font-size:12px;color:var(--gray-2);font-family:var(--mono);letter-spacing:.04em">
+      Tipp: Auf ein Kernthema klicken — das Detail-Panel listet alle MZ, Jahresziele &amp; Projekte.
+    </p>
+  </section>
+</div>
+
+<!-- Theme detail overlay -->
+<div class="flow-overlay" id="flow-overlay" onclick="if(event.target===this)closeTP()">
+  <div class="flow-modal" id="flow-modal"></div>
+</div>
+
+<footer class="footer">DHBW Lörrach · SPM 2026 · April 2026</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/particles.js"></script>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/modal.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.reveal').forEach(function(el){
+  gsap.fromTo(el, {opacity:0, y:60}, {opacity:1, y:0, duration:.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%'}});
+});
+
+/* ── BO chart progressive draw ── */
+function drawBO(){
+  var blue = document.getElementById('bo-blue');
+  if(!blue) return;
+  var len = blue.getTotalLength();
+  blue.style.strokeDasharray = len;
+  blue.style.strokeDashoffset = len;
+  gsap.to(blue, {strokeDashoffset:0, duration:1.6, ease:'power2.out', scrollTrigger:{trigger:blue, start:'top 80%'}});
+}
+drawBO();
+
+/* ── Flow diagram connection lines (SVG draw) ── */
+function drawFlowLines(){
+  var grid = document.getElementById('flow-grid');
+  var svg = document.getElementById('flow-svg');
+  if(!grid || !svg) return;
+  svg.innerHTML = '';
+  var gr = grid.getBoundingClientRect();
+  svg.setAttribute('viewBox','0 0 '+gr.width+' '+gr.height);
+
+  function center(el){
+    var r = el.getBoundingClientRect();
+    return {
+      x: r.left + r.width/2 - gr.left,
+      yTop: r.top - gr.top,
+      yBot: r.bottom - gr.top
+    };
+  }
+
+  var rows = [
+    grid.querySelector('[data-node="vision"]'),
+    grid.querySelector('[data-node="methods"]'),
+    Array.from(grid.querySelectorAll('[data-node="theme"]')),
+    grid.querySelector('[data-node="mehrjahr"]'),
+    grid.querySelector('[data-node="jahr"]'),
+    grid.querySelector('[data-node="projekte"]')
+  ];
+
+  var lines = [];
+
+  // vision -> methods
+  lines.push([center(rows[0]), center(rows[1]), false]);
+  // methods -> each theme
+  rows[2].forEach(function(t){
+    lines.push([center(rows[1]), center(t), false]);
+  });
+  // each theme -> mehrjahr
+  rows[2].forEach(function(t){
+    lines.push([center(t), center(rows[3]), true]);
+  });
+  // mehrjahr -> jahr
+  lines.push([center(rows[3]), center(rows[4]), false]);
+  // jahr -> projekte
+  lines.push([center(rows[4]), center(rows[5]), false]);
+
+  var paths = [];
+  lines.forEach(function(L){
+    var a=L[0], b=L[1];
+    var x1=a.x, y1=a.yBot, x2=b.x, y2=b.yTop;
+    var midY = (y1+y2)/2;
+    var d = 'M'+x1+','+y1+' C'+x1+','+midY+' '+x2+','+midY+' '+x2+','+y2;
+    var p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d', d);
+    p.setAttribute('fill','none');
+    p.setAttribute('stroke', L[2] ? 'url(#flowGrad)' : 'rgba(184,192,208,.25)');
+    p.setAttribute('stroke-width', '1.5');
+    svg.appendChild(p);
+    paths.push(p);
+  });
+
+  // gradient defs
+  var defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  defs.innerHTML = '<linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C8E600" stop-opacity=".6"/><stop offset="100%" stop-color="#C8E600" stop-opacity=".15"/></linearGradient>';
+  svg.appendChild(defs);
+
+  // animate draw
+  paths.forEach(function(p, i){
+    var len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    gsap.to(p, {strokeDashoffset:0, duration:.7, delay: 0.05*i, ease:'power2.out',
+      scrollTrigger:{trigger:'.flow-wrap', start:'top 75%'}});
+  });
+}
+drawFlowLines();
+window.addEventListener('resize', function(){ setTimeout(drawFlowLines, 100); });
+
+/* ── Theme overlay (center modal) ── */
+var flowOv = document.getElementById('flow-overlay');
+var flowMod = document.getElementById('flow-modal');
+
+// Build a reverse-dependency index: for each project ID, which projects depend on it
+var DEP_INDEX = (function(){
+  var idx = {};
+  window.ALL_PROJECTS.forEach(function(p){
+    (p.deps||[]).forEach(function(depId){
+      if(!idx[depId]) idx[depId] = [];
+      idx[depId].push(p.id);
+    });
+  });
+  return idx;
+})();
+
+function areaOf(pid){
+  var p = window.ALL_PROJECTS.find(function(x){return x.id===pid;});
+  return p ? p.areaId : null;
+}
+function areaMetaOf(aid){ return window.AREAS.find(function(a){return a.id===aid;}); }
+
+function openTP(themeId){
+  var area = areaMetaOf(themeId);
+  if(!area) return;
+  var mzs = window.GOALS.filter(function(g){return g.area===themeId;});
+  if(!mzs.length) return;
+
+  flowMod.style.setProperty('--area-color', area.color);
+
+  // ─ header
+  var html = ''
+    + '<button class="fm-close" onclick="closeTP()" aria-label="Schließen">×</button>'
+    + '<div class="fm-head">'
+    +   '<div class="fm-glyph" style="background:'+area.color+'22;color:'+area.color+';border:1px solid '+area.color+'55">'+area.icon+'</div>'
+    +   '<div class="fm-meta">'
+    +     '<div class="fm-eyebrow" style="color:'+area.color+'">Kernthema · '+mzs.length+' Mehrjahresziele</div>'
+    +     '<div class="fm-title">'+area.name+'</div>'
+    +     '<div class="fm-blurb">'+area.blurb+'</div>'
+    +   '</div>'
+    + '</div>';
+
+  // ─ tabs: one per Mehrjahresziel
+  html += '<div class="fm-tabs" role="tablist">';
+  mzs.forEach(function(g, gi){
+    html += '<button class="fm-tab'+(gi===0?' on':'')+'" data-mz="'+g.id+'">'
+         +    '<span class="fm-tab-num">MZ'+(gi+1)+'</span>'
+         +    '<span>'+g.name+'</span>'
+         +  '</button>';
+  });
+  html += '</div>';
+
+  // ─ body: one panel per MZ
+  html += '<div class="fm-body" id="fm-body">';
+  mzs.forEach(function(g, gi){
+    html += '<div class="fm-panel" data-mz-body="'+g.id+'" style="display:'+(gi===0?'block':'none')+'">';
+    html += '<div class="fm-mz-name"><b>MZ'+(gi+1)+'</b> · '+g.name+'</div>';
+
+    g.ags.forEach(function(ag){
+      html += '<div class="fm-year">'
+           +    '<div class="fm-year-hdr">'
+           +      '<span class="fm-year-tag">'+ag.year+'</span>'
+           +      '<span class="fm-year-name">'+ag.name+'</span>'
+           +    '</div>'
+           +    '<div class="fm-year-body">';
+
+      // KPIs
+      if(ag.kpis && ag.kpis.length){
+        html += '<div class="fm-kpis">';
+        ag.kpis.forEach(function(k){ html += '<div class="fm-kpi">'+k+'</div>'; });
+        html += '</div>';
+      }
+
+      // Projects
+      html += '<div class="fm-proj-list">';
+      ag.ps.forEach(function(p){
+        // Cross-area links: this project's outgoing deps + incoming dependents
+        var outCross = [];
+        (p.deps||[]).forEach(function(depId){
+          var depArea = areaOf(depId);
+          if(depArea && depArea !== themeId){
+            outCross.push({id:depId, aid:depArea});
+          }
+        });
+        var inCross = [];
+        (DEP_INDEX[p.id]||[]).forEach(function(depId){
+          var depArea = areaOf(depId);
+          if(depArea && depArea !== themeId){
+            inCross.push({id:depId, aid:depArea});
+          }
+        });
+        var hasCross = outCross.length || inCross.length;
+        var stClass = p.st === 'aktiv' ? ' st-aktiv' : (p.st === 'gesetzlich' ? ' st-gesetz' : '');
+
+        html += '<div class="fm-proj'+(hasCross?' cross':'')+'" data-pid="'+p.id+'" '
+             +    'style="--area-color:'+area.color+'">'
+             +    '<span class="fm-pid" style="color:'+area.color+'">'+p.id+'</span>'
+             +    '<div class="fm-pinfo">'
+             +      '<div class="fm-pname">'+p.name+'</div>'
+             +      '<div class="fm-pmeta">'
+             +        '<span class="fm-pchip'+stClass+'">'+(p.st==='aktiv'?'● aktiv':(p.st==='gesetzlich'?'§ gesetzlich':'backlog'))+'</span>';
+
+        // Cross-area dep chips (outgoing — "abhängig von")
+        outCross.forEach(function(d){
+          var da = areaMetaOf(d.aid);
+          if(!da) return;
+          html += '<span class="fm-pchip cross-dep" title="'+p.id+' braucht '+d.id+' aus '+da.short+'" '
+               +    'style="color:'+da.color+';background:'+da.color+'18;border:1px solid '+da.color+'33">'
+               +    '<span class="dot" style="background:'+da.color+'"></span>'
+               +    '→ <b>'+d.id+'</b>'
+               +  '</span>';
+        });
+        // Cross-area dep chips (incoming — "wird gebraucht von")
+        inCross.forEach(function(d){
+          var da = areaMetaOf(d.aid);
+          if(!da) return;
+          html += '<span class="fm-pchip cross-dep" title="'+d.id+' aus '+da.short+' braucht '+p.id+'" '
+               +    'style="color:'+da.color+';background:'+da.color+'12;border:1px dashed '+da.color+'40">'
+               +    '<span class="dot" style="background:'+da.color+'"></span>'
+               +    '<b>'+d.id+'</b> ←'
+               +  '</span>';
+        });
+
+        html += '</div></div></div>';
+      });
+      html += '</div></div></div>';
+    });
+    html += '</div>'; // /fm-panel
+  });
+  html += '</div>';   // /fm-body
+
+  // ─ legend
+  html += '<div class="fm-legend">';
+  html += '<div class="fm-legend-row" style="color:var(--gray);font-weight:600">Querverweise:</div>';
+  window.AREAS.forEach(function(a){
+    if(a.id === themeId) return;
+    html += '<div class="fm-legend-row"><span class="ld" style="background:'+a.color+'"></span>'+a.short+'</div>';
+  });
+  html += '<div class="fm-legend-row" style="margin-left:auto;color:var(--gray-2)">→ braucht · ← wird gebraucht</div>';
+  html += '</div>';
+
+  flowMod.innerHTML = html;
+
+  // ─ tab switching
+  flowMod.querySelectorAll('.fm-tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      var mzId = t.dataset.mz;
+      flowMod.querySelectorAll('.fm-tab').forEach(function(x){x.classList.toggle('on', x===t);});
+      flowMod.querySelectorAll('.fm-panel').forEach(function(p){
+        p.style.display = (p.dataset.mzBody===mzId) ? 'block' : 'none';
+      });
+      var body = document.getElementById('fm-body');
+      if(body) body.scrollTop = 0;
+    });
+  });
+
+  // ─ project click → existing modal
+  flowMod.querySelectorAll('.fm-proj').forEach(function(el){
+    el.addEventListener('click', function(){
+      if(window.ProjectModal && window.ProjectModal.open) window.ProjectModal.open(el.dataset.pid);
+    });
+  });
+
+  flowOv.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeTP(){
+  flowOv.classList.remove('show');
+  document.body.style.overflow = '';
+}
+window.closeTP = closeTP;
+
+document.querySelectorAll('[data-node="theme"]').forEach(function(n){
+  n.addEventListener('click', function(){ openTP(n.dataset.theme); });
+});
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') closeTP();
+});
+
+// methods click -> scroll to methods section
+document.querySelector('[data-node="methods"]').addEventListener('click', function(){
+  var t = document.querySelector('.methods');
+  if(t){ var r=t.getBoundingClientRect(); window.scrollTo({top:window.scrollY + r.top - 80, behavior:'auto'}); }
+});
+</script>
+</body>
+</html>

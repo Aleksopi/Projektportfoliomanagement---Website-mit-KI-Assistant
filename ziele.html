@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Haufe Group · Ziele & OKR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* Filter bar */
+.filter-bar{
+  position:sticky;top:var(--nav-h);z-index:20;
+  background:rgba(0,10,32,.78);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(184,192,208,.06);
+  border-bottom:1px solid rgba(184,192,208,.06);
+  padding:14px 28px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.fb-label{font-family:var(--mono);font-size:10px;color:var(--gray-2);text-transform:uppercase;letter-spacing:.18em;margin-right:4px}
+.fb-chip{
+  padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;
+  border:1px solid rgba(184,192,208,.16);background:rgba(184,192,208,.04);
+  color:var(--gray);cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.fb-chip:hover{border-color:rgba(200,230,0,.4);color:var(--white)}
+.fb-chip.on{background:var(--lime);border-color:var(--lime);color:var(--deep);font-weight:600}
+
+/* Tree */
+.tree-section{margin-bottom:28px}
+.tree-row{
+  display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start;
+  padding:24px 0;border-top:1px solid rgba(184,192,208,.08);
+}
+.tree-row:first-child{border-top:none}
+.tr-area{
+  position:sticky;top:calc(var(--nav-h) + 78px);
+  padding:18px;border-radius:14px;
+  background:linear-gradient(180deg, rgba(0,30,70,.4), rgba(0,15,40,.15));
+}
+.tr-area .glyph{font-family:var(--head);font-size:36px;line-height:1;margin-bottom:10px}
+.tr-area .name{font-family:var(--head);font-weight:700;font-size:18px;margin-bottom:6px;line-height:1.15}
+.tr-area .count{font-family:var(--mono);font-size:11px;color:var(--gray-2);letter-spacing:.06em}
+
+.tr-mzs{display:flex;flex-direction:column;gap:18px}
+.mz-card{
+  background:rgba(184,192,208,.03);
+  border:1px solid rgba(184,192,208,.1);
+  border-radius:14px;padding:20px;
+  display:grid;grid-template-columns:auto 1fr;gap:18px 24px;align-items:start;
+}
+.mz-bullet{
+  width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-weight:800;font-size:13px;color:var(--deep);
+  background:var(--lime);flex-shrink:0;
+}
+.mz-name{font-family:var(--head);font-weight:600;font-size:15px;line-height:1.35;align-self:center}
+
+.years{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+@media (max-width:880px){.years{grid-template-columns:1fr}}
+.year-card{
+  background:rgba(0,5,18,.5);
+  border:1px solid rgba(184,192,208,.08);
+  border-radius:12px;padding:16px;cursor:pointer;
+  transition:all .2s;position:relative;
+}
+.year-card:hover{border-color:rgba(200,230,0,.4);transform:translateY(-2px)}
+.yc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.yc-year{font-family:var(--mono);font-size:11px;background:rgba(200,230,0,.12);color:var(--lime);padding:3px 8px;border-radius:5px;letter-spacing:.05em}
+.yc-projects{font-family:var(--mono);font-size:10px;color:var(--gray-2);margin-left:auto}
+.yc-name{font-size:13px;font-weight:600;line-height:1.35;margin-bottom:10px}
+.yc-kpi{font-size:11px;color:var(--gray);padding:2px 0 2px 10px;border-left:2px solid rgba(200,230,0,.3);line-height:1.45;margin-bottom:3px}
+.yc-foot{margin-top:10px;font-size:10px;color:var(--gray-2);font-family:var(--mono);display:flex;justify-content:space-between}
+
+/* Konzern-Pyramide */
+.pyramid-wrap{margin-top:48px;padding:28px;background:linear-gradient(180deg, rgba(0,30,70,.3), rgba(0,15,40,.1));border:1px solid rgba(184,192,208,.1);border-radius:18px}
+.pyramid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.py-cell{
+  background:rgba(0,5,18,.5);border:1px solid rgba(184,192,208,.1);
+  border-radius:10px;padding:14px;text-align:center;
+}
+.py-cell .h{font-family:var(--mono);font-size:10px;color:var(--lime);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.py-cell .v{font-size:12px;font-weight:600;line-height:1.35}
+.py-row{display:grid;grid-template-columns:140px repeat(5,1fr);gap:10px;align-items:stretch;margin-bottom:8px}
+.py-row .label{font-family:var(--mono);font-size:10px;color:var(--gray-2);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;padding-left:8px}
+.py-cell-jz{
+  background:rgba(0,5,18,.4);border:1px dashed rgba(184,192,208,.12);
+  border-radius:8px;padding:10px;
+  font-size:11px;color:var(--gray);line-height:1.4;
+}
+</style>
+</head>
+<body data-page="ziele" data-screen-label="03 Ziele OKR">
+<div class="page">
+
+  <section class="section" style="padding-bottom:32px" data-screen-label="Intro">
+    <div class="eyebrow reveal">03 — Ziele &amp; OKR</div>
+    <h1 class="h1 reveal" style="max-width:880px;margin-bottom:18px">
+      Vom Kernthema zur<br>messbaren <span style="color:var(--lime)">Jahres-KPI</span>.
+    </h1>
+    <p class="lead reveal">
+      Vier Kernthemen · 11 Mehrjahresziele · 22 Jahresziele · 73 Projekte.
+      Klick auf ein Jahresziel öffnet die zugeordneten Projekte.
+    </p>
+  </section>
+
+  <!-- Filter bar -->
+  <div class="filter-bar reveal">
+    <div class="fb-label">Filter</div>
+    <button class="fb-chip on" data-area="">Alle Kernthemen</button>
+    <button class="fb-chip" data-area="ki"><span style="color:var(--ki)">⌬</span> KI</button>
+    <button class="fb-chip" data-area="pl"><span style="color:var(--mint)">◉</span> Plattform</button>
+    <button class="fb-chip" data-area="ak"><span style="color:var(--ak)">△</span> Akademie</button>
+    <button class="fb-chip" data-area="ve"><span style="color:var(--ve)">✦</span> Ventures</button>
+  </div>
+
+  <section class="section" id="tree-section" data-screen-label="Tree">
+    <div id="tree-root"></div>
+
+    <!-- Konzern-Ziel-Pyramide -->
+    <div class="eyebrow reveal" style="margin-top:80px">Konzern-Ziel-Pyramide</div>
+    <h2 class="h2 reveal" style="margin-bottom:32px">Bereichs-Mehrjahresziele &harr; Jahresziele 2025–2027.</h2>
+    <div class="pyramid-wrap reveal">
+      <div class="pyramid">
+        <div class="py-cell"><div class="h">Wirtschaft</div><div class="v">Profitables Wachstum &amp; Margen</div></div>
+        <div class="py-cell"><div class="h">Strategie &amp; Produkt</div><div class="v">Compliance-Grade AI &amp; Ökosystem</div></div>
+        <div class="py-cell"><div class="h">Markt &amp; Kunden</div><div class="v">Multi-Marken-Kundenwert &times;7</div></div>
+        <div class="py-cell"><div class="h">Organisation</div><div class="v">Skalierbare Plattform &amp; Teams</div></div>
+        <div class="py-cell"><div class="h">Innovation</div><div class="v">Venture-Portfolio &amp; Studio</div></div>
+      </div>
+
+      <div class="py-row"><div class="label">2025</div>
+        <div class="py-cell-jz">Konsolidierung Marken</div>
+        <div class="py-cell-jz">KI-Strategie verabschiedet</div>
+        <div class="py-cell-jz">Cross-Selling-Baseline 8 %</div>
+        <div class="py-cell-jz">Cloud-Migration gestartet</div>
+        <div class="py-cell-jz">Studio-Modell pilotiert</div>
+      </div>
+      <div class="py-row"><div class="label">2026</div>
+        <div class="py-cell-jz">Umsatzwachstum &gt; 5 %</div>
+        <div class="py-cell-jz">3 Copiloten produktiv · KI-Compliance live</div>
+        <div class="py-cell-jz">Rate auf 11 %</div>
+        <div class="py-cell-jz">SSO &amp; UCDP live</div>
+        <div class="py-cell-jz">2 Startup-Integrationen</div>
+      </div>
+      <div class="py-row"><div class="label">2027</div>
+        <div class="py-cell-jz">EBIT-Marge stabilisiert</div>
+        <div class="py-cell-jz">100 % Office-Line mit Copilot · EU-AI-Act-konform</div>
+        <div class="py-cell-jz">Cross-Selling-Rate 15 %</div>
+        <div class="py-cell-jz">Enterprise-B2B-Portal &amp; XAI live</div>
+        <div class="py-cell-jz">20+ Beteiligungen · 3 Studio-Produkte</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">DHBW Lörrach · SPM 2026 · April 2026</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/particles.js"></script>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/modal.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── Filter state ── */
+var fArea = '';
+
+function render(){
+  var root = document.getElementById('tree-root');
+  var html = '';
+  window.AREAS.forEach(function(area){
+    if(fArea && fArea !== area.id) return;
+    var mzs = window.GOALS.filter(function(g){return g.area===area.id;});
+    var pTotal = 0;
+    mzs.forEach(function(g){g.ags.forEach(function(a){pTotal += a.ps.length;});});
+
+    html += '<div class="tree-row reveal">'
+         +    '<div class="tr-area" style="border-left:3px solid '+area.color+'">'
+         +      '<div class="glyph" style="color:'+area.color+'">'+area.icon+'</div>'
+         +      '<div class="name" style="color:'+area.color+'">'+area.short+'</div>'
+         +      '<div class="count">'+mzs.length+' MZ · '+pTotal+' Projekte</div>'
+         +      '<p style="color:var(--gray-2);font-size:11px;line-height:1.5;margin-top:10px">'+area.blurb+'</p>'
+         +    '</div>'
+         +    '<div class="tr-mzs">';
+
+    mzs.forEach(function(g, gi){
+      html += '<div class="mz-card">'
+           +    '<div class="mz-bullet" style="background:'+area.color+'">MZ'+(gi+1)+'</div>'
+           +    '<div class="mz-name">'+g.name+'</div>'
+           +    '<div class="years">';
+      g.ags.forEach(function(ag){
+        html += '<div class="year-card" data-ag="'+ag.id+'">'
+             +    '<div class="yc-top">'
+             +      '<span class="yc-year">'+ag.year+'</span>'
+             +      '<span style="font-size:11px;color:var(--gray-2)">Jahresziel</span>'
+             +      '<span class="yc-projects">'+ag.ps.length+' Projekte →</span>'
+             +    '</div>'
+             +    '<div class="yc-name">'+ag.name+'</div>';
+        ag.kpis.forEach(function(k){
+          html += '<div class="yc-kpi">'+k+'</div>';
+        });
+        html += '<div class="yc-foot"><span>'+ag.ps.filter(function(p){return p.st==='aktiv';}).length+' aktiv</span><span>'+ag.ps.filter(function(p){return p.st==='gesetzlich';}).length+' § gesetzlich</span></div>'
+             + '</div>';
+      });
+      html += '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  root.innerHTML = html;
+
+  // bind year-card click → open modal showing list of projects in that goal
+  root.querySelectorAll('.year-card').forEach(function(el){
+    el.addEventListener('click', function(){
+      openAGModal(el.dataset.ag);
+    });
+  });
+
+  // animate reveals
+  gsap.utils.toArray('#tree-root .reveal').forEach(function(el){
+    if(el.dataset.revealed) return;
+    el.dataset.revealed='1';
+    gsap.fromTo(el, {opacity:0, y:40}, {opacity:1, y:0, duration:.7, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 92%'}});
+  });
+}
+
+function openAGModal(agId){
+  // find ag
+  var ag, area;
+  window.GOALS.some(function(g){
+    var found = g.ags.find(function(a){return a.id===agId;});
+    if(found){ag=found; area=window.AREAS.find(function(x){return x.id===g.area;});return true;}
+    return false;
+  });
+  if(!ag) return;
+
+  // Use a lightweight inline modal
+  var ov = document.createElement('div');
+  ov.className = 'modal-ov show';
+  ov.innerHTML = '<div class="modal">'
+    + '<div class="modal-top">'
+    +   '<div>'
+    +     '<div class="modal-id" style="color:'+area.color+'">'+ag.year+' · '+area.short+'</div>'
+    +     '<div class="modal-title">'+ag.name+'</div>'
+    +   '</div>'
+    +   '<button class="modal-close" aria-label="close">×</button>'
+    + '</div>'
+    + '<div class="msect">KPIs</div>'
+    + ag.kpis.map(function(k){return '<div class="yc-kpi" style="font-size:13px;color:var(--gray);margin-bottom:6px">'+k+'</div>';}).join('')
+    + '<div class="msect" style="margin-top:18px">Projekte ('+ag.ps.length+')</div>'
+    + ag.ps.map(function(p){
+        return '<div class="mdi" data-pid="'+p.id+'"><span class="mdi-id">'+p.id+'</span> <span>'+p.name+'</span> '+window.statusBadge(p.st)+'</div>';
+      }).join('')
+    + '</div>';
+  document.body.appendChild(ov);
+  ov.addEventListener('click', function(e){
+    if(e.target===ov){ ov.classList.remove('show'); setTimeout(function(){ov.remove();},220); }
+  });
+  ov.querySelector('.modal-close').addEventListener('click', function(){
+    ov.classList.remove('show'); setTimeout(function(){ov.remove();},220);
+  });
+  ov.querySelectorAll('.mdi[data-pid]').forEach(function(el){
+    el.addEventListener('click', function(){
+      window.ProjectModal.open(el.dataset.pid);
+    });
+  });
+}
+
+/* ── Filter chips ── */
+document.querySelectorAll('.fb-chip').forEach(function(c){
+  c.addEventListener('click', function(){
+    document.querySelectorAll('.fb-chip').forEach(function(x){x.classList.remove('on');});
+    c.classList.add('on');
+    fArea = c.dataset.area;
+    render();
+  });
+});
+
+render();
+
+/* Initial reveals for static sections */
+gsap.utils.toArray('.reveal').forEach(function(el){
+  if(el.dataset.revealed) return;
+  el.dataset.revealed='1';
+  gsap.fromTo(el, {opacity:0, y:40}, {opacity:1, y:0, duration:.8, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 92%'}});
+});
+</script>
+</body>
+</html>
