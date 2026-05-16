@@ -1,0 +1,2 @@
+-- Wird in Schritt 3.1 ausgefüllt
+-- Tabellen: areas, goals, annual_goals, projects, orientations

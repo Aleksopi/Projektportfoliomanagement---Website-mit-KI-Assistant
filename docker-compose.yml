@@ -1,0 +1,13 @@
+# Wird in Schritt 2.1 vollständig ausgefüllt
+# Platzhalter — zeigt die drei Services
+services:
+  nginx:     # Statische Website + Reverse Proxy
+    build: ./nginx
+    ports:
+      - "80:80"
+
+  backend:   # Node.js/Express + Claude API
+    build: ./backend
+
+  db:        # PostgreSQL
+    image: postgres:16-alpine
